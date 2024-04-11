@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, ScrollViewBase, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import axios from 'axios';
 import { Produto2 } from "../interface/ProdutoInterface";
@@ -47,16 +47,17 @@ const CadastroProduto: React.FC = () => {
                 name: new Date() + '.jpg'
             });
 
+            console.log(formData);
             const response = await axios.post('http://10.137.11.217:8000/api/produtos/cadastro', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
     }
-
 
     const selecionarImagen = () => {
         const options = {

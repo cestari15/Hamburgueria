@@ -15,7 +15,7 @@ const renderItem = ({ item }: { item: Produto2 }) => (
         <Text style={styles.itemText}>R${item.preco}</Text>
         <Text style={styles.decoracao}>--------------------------</Text>
         <Text style={styles.itemText}>{item.Ingredientes}</Text>
-        <Image source={item.image} style={styles.image} />
+        {item.image != '' ? <Image source={{ uri: item.image }} style={styles.image} /> : null}
     </TouchableOpacity>
 );
 
@@ -29,10 +29,10 @@ function Cardapio(): React.JSX.Element {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get<Produto2[]>('http://10.137.11.217:8000/api/produtos');
+                const response = await axios.get('http://10.137.11.217:8000/api/produtos');
                 setProduto(response.data);
-                console.log(response.data)
 
+                console.log(produto)
             } catch (error) {
                 setErro("Ocorreu um erro");
                 console.log(error);
@@ -49,21 +49,16 @@ function Cardapio(): React.JSX.Element {
             <View style={styles.header}>
                 <Image style={styles.imageHeader} source={require('./assets/images/logo.png')} />
             </View>
-            <ScrollView>
-                <Text style={styles.textoA}>𝕷𝖆𝖓𝖈𝖍𝖊𝖘</Text>
-                <FlatList
-
-                    showsVerticalScrollIndicator={true}
-
-
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                    data={produto}
+            <Text style={styles.textoA}>𝕷𝖆𝖓𝖈𝖍𝖊𝖘</Text>
+            <FlatList
+                showsVerticalScrollIndicator={true}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                data={produto}
 
 
-                />
+            />
 
-            </ScrollView>
 
 
 

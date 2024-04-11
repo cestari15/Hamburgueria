@@ -48,7 +48,7 @@ const CadastroCliente: React.FC = () => {
                 name: new Date() + '.jpg'
             });
 
-          
+          console.log(formData)
             const response = await axios.post('http://10.137.11.217:8000/api/clientes/cadastro', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -168,7 +168,8 @@ const styles = StyleSheet.create({
         padding: 1,
         borderRadius: 5,
         alignItems: 'center',
-        marginTop:20
+        marginTop:20,
+        height:30
     },
     imageButton: {
         backgroundColor: '#FFF',

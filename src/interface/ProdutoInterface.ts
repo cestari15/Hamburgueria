@@ -3,5 +3,5 @@
     nome:string;
     Ingredientes:string;
     preco:number;
-    image:any;
+    image:string;
 }
