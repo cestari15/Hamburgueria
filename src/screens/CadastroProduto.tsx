@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import axios from 'axios';
+import { Produto2 } from "../interface/ProdutoInterface";
+
 const CadastroProduto: React.FC = () => {
-    const [produtos, setProdutos] = useState<Produto[]>([]);
+    const [produtos, setProdutos] = useState<Produto2[]>([]);
     const [nome, setNome] = useState<string>('');
     const [preco, setPreco] = useState<string>('');
     const [ingredientes, setIngredientes] = useState<string>('');
@@ -74,6 +76,8 @@ const CadastroProduto: React.FC = () => {
             }
         })
     }
+
+    console.log()
 
     return (
         <ScrollView>

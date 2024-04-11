@@ -1,7 +1,7 @@
-interface Produto{
-    id:number;
+ export interface Produto2{
+    id:string;
     nome:string;
-    ingredinetes:string;
+    Ingredientes:string;
     preco:number;
-    imagem:any;
+    image:any;
 }

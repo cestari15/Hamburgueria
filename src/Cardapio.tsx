@@ -1,41 +1,18 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Touchable, TouchableOpacity, StatusBar, Image, ScrollView } from "react-native";
-
-interface lanches {
-    id: string;
-    nome: string;
-    preco: number;
-    Ingredientes: string;
-    image: any;
-}
-
-const dados: lanches[] = [
-    { id: '1', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '2', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '3', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '4', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '5', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '6', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '7', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '8', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '9', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '10', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '11', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '12', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '13', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '14', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-    { id: '15', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
-
-];
+import { Produto2 } from "./interface/ProdutoInterface";
 
 
 
 
-const renderItem = ({ item }: { item: lanches }) => (
+
+
+const renderItem = ({ item }: { item: Produto2 }) => (
     <TouchableOpacity style={styles.item}>
         <Text style={styles.itemTitle}>{item.nome}</Text>
         <Text style={styles.decoracao}>--------------------------</Text>
-        <Text style={styles.itemText}>R${item.preco},00</Text>
+        <Text style={styles.itemText}>R${item.preco}</Text>
         <Text style={styles.decoracao}>--------------------------</Text>
         <Text style={styles.itemText}>{item.Ingredientes}</Text>
         <Image source={item.image} style={styles.image} />
@@ -45,6 +22,26 @@ const renderItem = ({ item }: { item: lanches }) => (
 
 
 function Cardapio(): React.JSX.Element {
+    const [produto, setProduto] = useState<Produto2[]>([]);
+    const [erro, setErro] = useState<string>("");
+
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get<Produto2[]>('http://10.137.11.217:8000/api/produtos');
+                setProduto(response.data);
+                console.log(response.data)
+
+            } catch (error) {
+                setErro("Ocorreu um erro");
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, []);
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor="black" barStyle='light-content' />
@@ -58,10 +55,10 @@ function Cardapio(): React.JSX.Element {
 
                     showsVerticalScrollIndicator={true}
 
-                    data={dados}
+
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
-
+                    data={produto}
 
 
                 />
@@ -92,7 +89,7 @@ function Cardapio(): React.JSX.Element {
     );
 }
 const styles = StyleSheet.create({
-   
+
     imageHeader: {
         height: 100,
         marginTop: 40,
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         width: 300
     },
- 
+
     textoA: {
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
         color: 'black',
         marginTop: 80
     },
- 
+
     container: {
         flex: 1,
 
@@ -161,7 +158,7 @@ const styles = StyleSheet.create({
         width: 200,
         borderRadius: 30
     },
- 
+
 
 });
 
