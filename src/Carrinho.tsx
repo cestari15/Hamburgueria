@@ -14,20 +14,20 @@ const renderItem = ({ item }: { item: Carrinho1 }) => (
 );
 function Carrinho(): React.JSX.Element {
     const [carrinho, setCarrinho] = useState<Carrinho1[]>([]);
+    const [erro, setErro] = useState<string>("");
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/all/agenda');
+                const response = await axios.get('http://10.137.11.217:8000/api/carrinho2');
                 if (response.data.status == true) {
-
                     setCarrinho(response.data.data);
-                   
+                    console.log(carrinho)
                 }
                 else {
                    
                 }
             } catch (error) {
-
+                setErro("Ocorreu um erro");
                 console.log(error);
             }
         }

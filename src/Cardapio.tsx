@@ -7,7 +7,6 @@ import { Produto2 } from "./interface/ProdutoInterface";
 
 
 
-
 const renderItem = ({ item }: { item: Produto2 }) => (
     <TouchableOpacity style={styles.item}>
         <Text style={styles.itemTitle}>{item.nome}</Text>
@@ -31,7 +30,6 @@ function Cardapio(): React.JSX.Element {
             try {
                 const response = await axios.get('http://10.137.11.217:8000/api/produtos');
                 setProduto(response.data);
-
                 console.log(produto)
             } catch (error) {
                 setErro("Ocorreu um erro");
