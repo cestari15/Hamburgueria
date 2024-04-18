@@ -1,25 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Touchable, TouchableOpacity, StatusBar, Image, ScrollView } from "react-native";
+import { Carrinho1 } from "./interface/CarrinhoInterface";
+import axios from "axios";
 
-interface lanches {
-    id: string;
-    nome: string;
-    preco: number;
-    Ingredientes: string;
-    image: any;
-}
-const dados: lanches[] = [
-    { id: '1', nome: '𝖃-𝕿𝖀𝕯𝕺', preco: 30.00, Ingredientes: "pão, queijo, 3 hamburguers, 5 ovo, 4 salsicha , salada", image: require('./assets/images/big.jpg') },
 
-];
-const renderItem = ({ item }: { item: lanches }) => (
+
+const renderItem = ({ item }: { item: Carrinho1 }) => (
     <TouchableOpacity style={styles.item}>
-        <Text style={styles.itemTitle}>{item.nome}</Text>
+        <Text style={styles.itemTitle}>{item.clientes_id}</Text>
 
-        <Image source={item.image} style={styles.image} />
+      
     </TouchableOpacity>
 );
 function Carrinho(): React.JSX.Element {
+    const [carrinho, setCarrinho] = useState<Carrinho1[]>([]);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/all/agenda');
+                if (response.data.status == true) {
+
+                    setCarrinho(response.data.data);
+                   
+                }
+                else {
+                   
+                }
+            } catch (error) {
+
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, []);
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor="black" barStyle='light-content' />
@@ -34,7 +48,7 @@ function Carrinho(): React.JSX.Element {
 
                 showsVerticalScrollIndicator={true}
 
-                data={dados}
+                data={carrinho}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
 
@@ -48,7 +62,6 @@ function Carrinho(): React.JSX.Element {
 
                 <TouchableOpacity>
                     <Text style={styles.textCard}>FINALIZAR</Text>
-                    <Text style={styles.numberCard}>R$30,00</Text>
                 </TouchableOpacity>
 
             </View>
