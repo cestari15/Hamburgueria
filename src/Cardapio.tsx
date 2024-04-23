@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Touchable, TouchableOpacity, StatusBar, Image, ScrollView } from "react-native";
 import { Produto2 } from "./interface/ProdutoInterface";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -40,6 +41,9 @@ function Cardapio(): React.JSX.Element {
         fetchData();
     }, []);
 
+
+const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor="black" barStyle='light-content' />
@@ -70,7 +74,7 @@ function Cardapio(): React.JSX.Element {
                     <Image source={require('./assets/images/home.png')} style={styles.footerIcon} />
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Carrinho')} >
                     <Image source={require('./assets/images/pedidos.png')} style={styles.footerIcon} />
                 </TouchableOpacity>
 
