@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Touchable, TouchableOpacity, StatusBar, Image, ScrollView } from "react-native";
 import { Carrinho1 } from "./interface/CarrinhoInterface";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -34,6 +35,8 @@ function Carrinho(): React.JSX.Element {
 
         fetchData();
     }, []);
+
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor="black" barStyle='light-content' />
@@ -77,7 +80,7 @@ function Carrinho(): React.JSX.Element {
                     <Image source={require('./assets/images/menu.png')} style={styles.footerIcon} />
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Cardapio')} >
                     <Image source={require('./assets/images/home.png')} style={styles.footerIcon} />
                 </TouchableOpacity>
 
